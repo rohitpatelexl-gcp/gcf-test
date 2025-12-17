@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # FastAPI Project
 
 This is a FastAPI project structured to provide a clean and organized way to build APIs.
@@ -58,3 +59,7 @@ Visit `http://127.0.0.1:8000/docs` to access the interactive API documentation.
 ## Contributing
 
 Feel free to submit issues or pull requests for improvements or bug fixes.
+=======
+# gcf-test
+GCF testing
+>>>>>>> a989d1ef18ed801fdaf48b1e76d42a6272d16aef
