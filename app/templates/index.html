@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beautiful Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .calculator { max-width: 400px; margin: 50px auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .display { font-size: 2rem; text-align: right; padding: 10px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 10px; }
+        .btn { font-size: 1.5rem; margin: 5px; }
+        .btn-equal { background-color: #28a745; color: white; }
+        .btn-clear { background-color: #dc3545; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="calculator">
+            <div class="display" id="display">0</div>
+            <div class="row">
+                <button class="btn btn-secondary col-3" onclick="appendToDisplay('7')">7</button>
+                <button class="btn btn-secondary col-3" onclick="appendToDisplay('8')">8</button>
+                <button class="btn btn-secondary col-3" onclick="appendToDisplay('9')">9</button>
+                <button class="btn btn-warning col-3" onclick="appendToDisplay('/')">/</button>
+            </div>
+            <div class="row">
+                <button class="btn btn-secondary col-3" onclick="appendToDisplay('4')">4</button>
+                <button class="btn btn-secondary col-3" onclick="appendToDisplay('5')">5</button>
+                <button class="btn btn-secondary col-3" onclick="appendToDisplay('6')">6</button>
+                <button class="btn btn-warning col-3" onclick="appendToDisplay('*')">*</button>
+            </div>
+            <div class="row">
+                <button class="btn btn-secondary col-3" onclick="appendToDisplay('1')">1</button>
+                <button class="btn btn-secondary col-3" onclick="appendToDisplay('2')">2</button>
+                <button class="btn btn-secondary col-3" onclick="appendToDisplay('3')">3</button>
+                <button class="btn btn-warning col-3" onclick="appendToDisplay('-')">-</button>
+            </div>
+            <div class="row">
+                <button class="btn btn-secondary col-3" onclick="appendToDisplay('0')">0</button>
+                <button class="btn btn-secondary col-3" onclick="appendToDisplay('.')">.</button>
+                <button class="btn btn-equal col-3" onclick="calculate()">=</button>
+                <button class="btn btn-warning col-3" onclick="appendToDisplay('+')">+</button>
+            </div>
+            <div class="row">
+                <button class="btn btn-clear col-6" onclick="clearDisplay()">Clear</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let display = document.getElementById('display');
+        function appendToDisplay(value) {
+            if (display.innerText === '0') {
+                display.innerText = value;
+            } else {
+                display.innerText += value;
+            }
+        }
+        function clearDisplay() {
+            display.innerText = '0';
+        }
+        async function calculate() {
+            try {
+                const response = await fetch('/calculate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ expression: display.innerText })
+                });
+                const data = await response.json();
+                if (data.result !== undefined) {
+                    display.innerText = data.result;
+                } else {
+                    display.innerText = 'Error';
+                }
+            } catch (error) {
+                display.innerText = 'Error';
+            }
+        }
+    </script>
+</body>
+</html>

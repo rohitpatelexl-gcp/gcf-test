@@ -1,5 +1,5 @@
-fastapi
-uvicorn[standard]
+flask
+gunicorn
 pydantic
 sqlalchemy
 httpx
